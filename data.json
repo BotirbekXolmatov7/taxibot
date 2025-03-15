@@ -4,34 +4,38 @@
       "id": 912247697,
       "username": "sakinat_10",
       "fullName": "Botirbek Xolmatov",
-      "joinDate": "2025-03-03T16:32:27.589Z",
-      "code": "203690",
-      "verified": true
+      "joinDate": "2025-03-14T18:21:53.976Z",
+      "activationCode": "513437",
+      "permissions": {
+        "isAdmin": true,
+        "sendMessage": true,
+        "addAdmin": true
+      }
     },
     {
       "id": 6841875670,
       "fullName": "Black hole ",
-      "joinDate": "2025-03-03T16:41:36.076Z",
-      "code": "398338",
-      "verified": false
-    },
-    {
-      "id": 5252699139,
-      "username": "imilgor",
-      "fullName": "Abdumalikov I",
-      "joinDate": "2025-03-05T09:40:10.264Z",
-      "code": "536251",
-      "verified": true
+      "joinDate": "2025-03-15T09:05:05.178Z",
+      "activationCode": "527214",
+      "permissions": {
+        "isAdmin": true,
+        "sendMessage": true,
+        "addAdmin": true
+      }
     }
   ],
   "groups": [
     {
-      "id": -4698383672,
+      "id": -1002471884272,
+      "title": "test 1"
+    },
+    {
+      "id": -1002492729990,
       "title": "test 2"
     },
     {
-      "id": -4763104383,
-      "title": "test 1"
+      "id": -1002297654890,
+      "title": "rekbot guruhlari"
     }
   ]
 }
