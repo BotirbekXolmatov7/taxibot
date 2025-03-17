@@ -1,10 +1,10 @@
 const TelegramBot = require("node-telegram-bot-api");
 const fs = require("fs");
 const path = require("path");
+const winston = require("winston");
 
 // Bot tokenini shu yerga yozing
-// const token = "6582858095:AAGQ4KYSo-r4NZ2ArcLo48MEHYqko1hJn8Y"; // taxirekbot
-const token = "6582858095:AAGQ4KYSo-r4NZ2ArcLo48MEHYqko1hJn8Y"; // test bot
+const token = "7594356926:AAFIEh0JWKpGEvBrE89Z29Nzk47IxJ9F-yc"; // taxirekbot
 const bot = new TelegramBot(token, { polling: true });
 // Maxsus guruh ID sini shu yerga yozing
 const specialGroupId = -1002297654890;
@@ -19,6 +19,27 @@ let currentUserCode = "";
 // data.json faylini yaratish va o'qish
 const dataFilePath = path.join(__dirname, "data.json");
 let data = { users: [], groups: [] };
+// Log fayli saqlanadigan joy
+const logFilePath = path.join(__dirname, "app.log");
+
+// Winston logger yaratamiz
+const logger = winston.createLogger({
+  level: "info", // Log darajasi (info, warn, error)
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.printf(({ timestamp, level, message }) => {
+      return `[${timestamp}] [${level.toUpperCase()}]: ${message}`;
+    })
+  ),
+  transports: [
+    new winston.transports.File({ filename: logFilePath }), // Faylga yozish
+  ],
+});
+
+// // Misol uchun log yozamiz
+// logger.info("Bot ishga tushdi");
+// logger.warn("Ogohlantirish: Tarmoq ulanishi sust!");
+// logger.error("Xatolik: Ma'lumotlar bazasiga ulanib bo‘lmadi!");
 
 if (fs.existsSync(dataFilePath)) {
   data = JSON.parse(fs.readFileSync(dataFilePath, "utf8"));
@@ -27,6 +48,7 @@ if (fs.existsSync(dataFilePath)) {
 // Maxsus kod generatsiya qilish
 function generateCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
+  logger.info("Bot ishga tushdi");
 }
 
 // Foydalanuvchini tekshirish
@@ -105,6 +127,7 @@ bot.on("message", async (msg) => {
 
     // 2️⃣ Agar xabar guruhdan kelgan bo‘lsa, bot uni qayta yubormasin
     if (msg.chat.type === "supergroup" || msg.chat.type === "group") {
+      logger.info("habar guruhdan keldi");
       return;
     }
 
@@ -128,6 +151,7 @@ bot.on("message", async (msg) => {
             console.log(`Xabar guruhga yuborildi: ${group.id}`);
           } catch (error) {
             console.error(`Guruhga xabar yuborishda xato: ${error.message}`);
+            logger.error(`Guruhga xabar yuborishda xato: ${error.message}`);
           }
         });
       } else {
@@ -140,6 +164,7 @@ bot.on("message", async (msg) => {
     }
   } catch (error) {
     console.error(`Xatolik yuz berdi: ${error.message}`);
+    logger.error(`Xatolik yuz berdi: ${error.message}`);
     await bot.sendMessage(
       userId,
       "Xatolik yuz berdi. Iltimos, keyinroq qayta urinib ko'ring."
@@ -299,5 +324,7 @@ setInterval(() => {
 bot.on("polling_error", (error) => {
   console.error(`Polling xatosi: ${error.message}`);
   console.error(`Xato tafsilotlari: ${JSON.stringify(error)}`);
+  logger.error(`Polling xatosi: ${error.message}`);
+  logger.error(`Xato tafsilotlari: ${JSON.stringify(error)}`);
 });
 console.log("bot is working...");

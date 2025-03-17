@@ -22,6 +22,17 @@
         "sendMessage": true,
         "addAdmin": true
       }
+    },
+    {
+      "id": 7414171227,
+      "fullName": "Najmiddin Turgunov",
+      "joinDate": "2025-03-17T06:35:33.310Z",
+      "activationCode": "450388",
+      "permissions": {
+        "isAdmin": false,
+        "sendMessage": false,
+        "addAdmin": false
+      }
     }
   ],
   "groups": [
