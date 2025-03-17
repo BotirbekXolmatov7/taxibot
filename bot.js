@@ -115,7 +115,6 @@ bot.onText(/\/start/, (msg) => {
 bot.on("message", async (msg) => {
   const userId = msg.from.id;
   const text = msg.text;
-  console.log(msg);
   try {
     // Foydalanuvchini tekshirish (asinxron tarzda)
     const user = await checkUser(userId);
@@ -148,9 +147,7 @@ bot.on("message", async (msg) => {
         data.groups.forEach(async (group) => {
           try {
             await bot.sendMessage(group.id, msg.text);
-            console.log(`Xabar guruhga yuborildi: ${group.id}`);
           } catch (error) {
-            console.error(`Guruhga xabar yuborishda xato: ${error.message}`);
             logger.error(`Guruhga xabar yuborishda xato: ${error.message}`);
           }
         });
@@ -163,7 +160,6 @@ bot.on("message", async (msg) => {
       }
     }
   } catch (error) {
-    console.error(`Xatolik yuz berdi: ${error.message}`);
     logger.error(`Xatolik yuz berdi: ${error.message}`);
     await bot.sendMessage(
       userId,
@@ -322,8 +318,6 @@ setInterval(() => {
 
 // Polling xatosini boshqarish
 bot.on("polling_error", (error) => {
-  console.error(`Polling xatosi: ${error.message}`);
-  console.error(`Xato tafsilotlari: ${JSON.stringify(error)}`);
   logger.error(`Polling xatosi: ${error.message}`);
   logger.error(`Xato tafsilotlari: ${JSON.stringify(error)}`);
 });
